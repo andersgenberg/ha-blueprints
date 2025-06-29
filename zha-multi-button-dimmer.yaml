@@ -1,6 +1,6 @@
 blueprint:
-  name: Multi-button dimmer
-  description: Turn on, off and dim light using multiple button.
+  name: zHA multi-button dimmer
+  description: Turn on, off and dim light using multiple ZHA-buttons.
   domain: automation
   input:
     remotes:
