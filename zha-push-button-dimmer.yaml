@@ -21,7 +21,7 @@ blueprint:
     target_light_entity_id:
       name: Entity id of the target light
       description: Used to check state and brightness
-      default: two
+      default: "three"
       selector:
         text:
           multiline: false
