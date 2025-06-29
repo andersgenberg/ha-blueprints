@@ -1,0 +1,237 @@
+blueprint:
+  name: Multi-button dimmer
+  description: Turn on, off and dim light using multiple button.
+  domain: automation
+  input:
+    remotes:
+      name: Buttons
+      default:
+      selector:
+        device:
+          entity:
+            integration: zha
+            domain: button
+          multiple: true
+            
+    target_light_entity_id:
+      name: Entity id of the target light
+      description: Used to check state and brightness
+      default:
+      selector:
+        text:
+          multiline: false
+          multiple: false
+
+    complexity:
+      name: Komplexitet
+      default:
+      selector:
+        select:
+          options:
+            - value: "two"
+              label: "50/100"
+            - value: "three"
+              label: "33/66/100"
+            - value: "four"
+              label: "25/50/75/100"
+
+trigger:
+  - trigger: event
+    event_type: zha_event
+variables:
+  remotes: !input remotes
+  var_complexity: !input complexity
+
+condition:
+- condition: template
+  value_template: "{{ trigger.event.data.device_id in remotes }}"
+
+action:
+  - variables:
+      command_type: '{{ trigger.event.data.command }}'
+  # - action: notify.mobile_app_feletonen
+  #   metadata: {}
+  #   data:
+  #     message: '{{ command_type }}'
+
+
+  - choose:
+    - conditions: # click: increase light
+      - condition: template
+        value_template: '{{ command_type == "toggle" }}'
+      sequence: 
+
+
+        - choose:
+          - conditions:
+            - condition: template
+              value_template: "{{ var_complexity == 'two' }}"
+            sequence: 
+            - choose:
+              - conditions:
+                - condition: state
+                  entity_id: !input target_light_entity_id
+                  state: "off"
+                sequence:
+                - action: light.turn_on
+                  target:
+                    entity_id: !input target_light_entity_id
+                  data:
+                    brightness_pct: 50
+              - conditions:
+                - condition: numeric_state
+                  entity_id: !input target_light_entity_id
+                  attribute: brightness
+                  above: 0
+                  below: 190
+                sequence: 
+                - action: light.turn_on
+                  target:
+                    entity_id: !input target_light_entity_id
+                  data:
+                    brightness_pct: 100
+              default:
+              - action: light.turn_off
+                target:
+                  entity_id: !input target_light_entity_id
+                data: {}
+
+
+          - conditions:
+            - condition: template
+              value_template: "{{ var_complexity == 'three' }}"
+            sequence:
+            - choose:
+              - conditions:
+                - condition: state
+                  entity_id: !input target_light_entity_id
+                  state: "off"
+                sequence:
+                - action: light.turn_on
+                  target:
+                    entity_id: !input target_light_entity_id
+                  data:
+                    brightness: 85
+              - conditions:
+                - condition: numeric_state
+                  entity_id: !input target_light_entity_id
+                  attribute: brightness
+                  above: 0
+                  below: 90
+                sequence: 
+                - action: light.turn_on
+                  target:
+                    entity_id: !input target_light_entity_id
+                  data:
+                    brightness: 170
+              - conditions:
+                - condition: numeric_state
+                  entity_id: !input target_light_entity_id
+                  attribute: brightness
+                  above: 90
+                  below: 180
+                sequence: 
+                - action: light.turn_on
+                  target:
+                    entity_id: !input target_light_entity_id
+                  data:
+                    brightness: 255
+              default:
+              - action: light.turn_off
+                target:
+                  entity_id: !input target_light_entity_id
+                data: {}
+
+          - conditions:
+            - condition: template
+              value_template: "{{ var_complexity == 'four' }}"
+            sequence:
+            - choose:
+              - conditions:
+                - condition: state
+                  entity_id: !input target_light_entity_id
+                  state: "off"
+                sequence:
+                - action: light.turn_on
+                  target:
+                    entity_id: !input target_light_entity_id
+                  data:
+                    brightness: 64
+              - conditions:
+                - condition: numeric_state
+                  entity_id: !input target_light_entity_id
+                  attribute: brightness
+                  above: 0
+                  below: 70
+                sequence: 
+                - action: light.turn_on
+                  target:
+                    entity_id: !input target_light_entity_id
+                  data:
+                    brightness: 128
+              - conditions:
+                - condition: numeric_state
+                  entity_id: !input target_light_entity_id
+                  attribute: brightness
+                  above: 70
+                  below: 130
+                sequence: 
+                - action: light.turn_on
+                  target:
+                    entity_id: !input target_light_entity_id
+                  data:
+                    brightness: 192
+              - conditions:
+                - condition: numeric_state
+                  entity_id: !input target_light_entity_id
+                  attribute: brightness
+                  above: 130
+                  below: 200
+                sequence: 
+                - action: light.turn_on
+                  target:
+                    entity_id: !input target_light_entity_id
+                  data:
+                    brightness: 255
+              default:
+              - action: light.turn_off
+                target:
+                  entity_id: !input target_light_entity_id
+                data: {}
+
+
+
+
+  - choose: # double_click, toggle full light
+    - conditions:
+      - condition: template
+        value_template: '{{ command_type == "on" }}'
+      sequence:
+        - if:
+            - condition: state
+              entity_id: !input target_light_entity_id
+              state: "off"
+          then:
+            - target:
+                entity_id: !input target_light_entity_id
+              action: light.turn_on
+              data:
+                brightness: 255
+          else:
+            - target:
+                entity_id: !input target_light_entity_id
+              action: light.turn_off
+              data: {}
+
+
+
+  - choose:
+    - conditions: # long_click, turn off light
+      - '{{ command_type == "off" }}'
+      sequence:
+        - action: light.turn_off
+          target:
+            entity_id: !input target_light_entity_id
+          data: {}
+          
+        
