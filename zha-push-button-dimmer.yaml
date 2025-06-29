@@ -11,7 +11,6 @@ blueprint:
   input:
     remotes:
       name: Buttons
-      default:
       selector:
         device:
           entity:
@@ -22,7 +21,7 @@ blueprint:
     target_light_entity_id:
       name: Entity id of the target light
       description: Used to check state and brightness
-      default:
+      default: two
       selector:
         text:
           multiline: false
