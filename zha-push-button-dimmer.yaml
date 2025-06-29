@@ -35,11 +35,11 @@ blueprint:
         select:
           options:
             - value: "two"
-              label: "50/100"
+              label: "50% / 100%"
             - value: "three"
-              label: "33/66/100"
+              label: "33% / 66% / 100%"
             - value: "four"
-              label: "25/50/75/100"
+              label: "25% / 50% / 75% / 100%"
 
 trigger:
   - trigger: event
