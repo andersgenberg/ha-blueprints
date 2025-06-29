@@ -1,7 +1,7 @@
 blueprint:
-  name: ZHA multi-button dimmer
+  name: ZHA push button dimmer
   description: |
-    Turn on, off and dim light using multiple ZHA-buttons.
+    Turn on, off and dim light using ZHA push buttons.
     Use this blieprint to dim a light with a simple push-button. 
     The light can be dimmed by 50%/100%, 33%/66%/100% or 25%/50%/75%/100%.
     Click the button to toggle dimming level. Double-click to toggle 100% or off. Long click to switch off the light. 
