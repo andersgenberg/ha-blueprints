@@ -1,5 +1,5 @@
 blueprint:
-  name: ZHA push button dimmer
+  name: ZHA-Push Button Dimmer
   description: |
     Turn on, off and dim light using ZHA push buttons.
     Use this blieprint to dim a light with a simple push-button. 
