@@ -37,9 +37,9 @@ blueprint:
             - value: "two"
               label: "50% / 100%"
             - value: "three"
-              label: "33% / 66% / 100%"
+              label: "1% / 50% / 100%"
             - value: "four"
-              label: "25% / 50% / 75% / 100%"
+              label: "1% / 33% / 66% / 100%"
 
 trigger:
   - trigger: event
@@ -117,25 +117,25 @@ action:
                   target:
                     entity_id: !input target_light_entity_id
                   data:
-                    brightness: 85
+                    brightness: 3
               - conditions:
                 - condition: numeric_state
                   entity_id: !input target_light_entity_id
                   attribute: brightness
                   above: 0
-                  below: 90
+                  below: 6
                 sequence: 
                 - action: light.turn_on
                   target:
                     entity_id: !input target_light_entity_id
                   data:
-                    brightness: 170
+                    brightness: 128
               - conditions:
                 - condition: numeric_state
                   entity_id: !input target_light_entity_id
                   attribute: brightness
                   above: 90
-                  below: 180
+                  below: 140
                 sequence: 
                 - action: light.turn_on
                   target:
@@ -162,31 +162,31 @@ action:
                   target:
                     entity_id: !input target_light_entity_id
                   data:
-                    brightness: 64
+                    brightness: 3
               - conditions:
                 - condition: numeric_state
                   entity_id: !input target_light_entity_id
                   attribute: brightness
                   above: 0
-                  below: 70
+                  below: 6
                 sequence: 
                 - action: light.turn_on
                   target:
                     entity_id: !input target_light_entity_id
                   data:
-                    brightness: 128
+                    brightness: 84
               - conditions:
                 - condition: numeric_state
                   entity_id: !input target_light_entity_id
                   attribute: brightness
-                  above: 70
-                  below: 130
+                  above: 7
+                  below: 100
                 sequence: 
                 - action: light.turn_on
                   target:
                     entity_id: !input target_light_entity_id
                   data:
-                    brightness: 192
+                    brightness: 170
               - conditions:
                 - condition: numeric_state
                   entity_id: !input target_light_entity_id
