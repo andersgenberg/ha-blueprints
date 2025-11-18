@@ -7,6 +7,9 @@ blueprint:
     Click the button to toggle dimming level. Double-click to toggle 100% or off. Long click to switch off the light. 
     To dim multiple lights, just create a light group. 
     This blueprint is tested with Sonoff SNZB-01P but will probibly work with other buttons.
+  author: Anders Genberg
+  homeassistant:
+    min_version: 2024.1.0
   domain: automation
   input:
     remotes:
@@ -55,11 +58,6 @@ condition:
 action:
   - variables:
       command_type: '{{ trigger.event.data.command }}'
-  # - action: notify.mobile_app_feletonen
-  #   metadata: {}
-  #   data:
-  #     message: '{{ command_type }}'
-
 
   - choose:
     - conditions: # click: increase light
